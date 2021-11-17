@@ -117,8 +117,8 @@ paths:
       operationId: director.read_offset_limit
       tags:
         - Director
-      summary: Read set of direector with limit
-      description: Read set of direector with limit
+      summary: Read set of director with limit
+      description: Read set of director with limit
       parameters:
         - name: offset
           in: path
@@ -298,6 +298,65 @@ paths:
       responses:
         200:
           description: Successfully deleted a director
+  
+  /director/gender/{gender}:
+    get:
+      operationId: director.get_by_gender
+      tags:
+        - Director
+      summary: Read set of direction by gender
+      description: Read set of direction by gender
+      parameters:
+        - name: gender
+          in: path
+          description: gender code to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read set of directors
+          schema:
+            type: array
+            items:
+              properties:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      id:
+                        type: integer
+                        description: Id of the director
+                      uid:
+                        type: integer
+                        description: uid of the director
+                      name:
+                        type: string
+                        description: name of the director
+                      department:
+                        type: string
+                        description: departement of the director
+                      gender:
+                        type: integer
+                        description: gender of the director
+                      movie:
+                        type: array
+                        items:
+                          properties:
+                            id:
+                              type: integer
+                              description: Id of the movie
+                            uid:
+                              type: integer
+                              description: uid of the movie
+                            director_id:
+                              type: integer
+                              description: id of the director
+                            original_title:
+                              type: string
+                              description: original title of the movie
+                            title:
+                              type: string
+                              description: original title of the movie
 
   /movie:
     get:
@@ -306,6 +365,70 @@ paths:
         - Movie
       summary: Read the entire set of movie , sorted by movie id
       description: Read the entire set of movie , sorted by movie id
+      responses:
+        200:
+          description: Successfully read set of movie
+          schema:
+            type: array
+            items:
+              properties:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      id:
+                        type: integer
+                        description: Id of the movie
+                      uid:
+                        type: integer
+                        description: uid of the movie
+                      original_title:
+                        type: string
+                        description: original title of the movie
+                      title:
+                        type: string
+                        description: title of the movie
+                      budget:
+                        type: integer
+                        description: budget of the movie
+                      popularity:
+                        type: integer
+                        description: popularity of the movie
+                      revenue:
+                        type: integer
+                        description: revenue of the movie
+                      release_date:
+                        type: string
+                        description: release date of the movie
+                      vote_average:
+                        type: integer
+                        description: average vote of the movie
+                      vote_count:
+                        type: integer
+                        description: count vote of the movie
+                      overview:
+                        type: string
+                        description: overview of the movie
+                      tagline:
+                        type: string
+                        description: tagline of the movie
+                      director:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: Id of the director
+                          name:
+                            type: string
+                            description: name of the director
+  
+  /movie/popular:
+    get:
+      operationId: movie.get_highest_rating
+      tags:
+        - Movie
+      summary: Read the top 5 movie
+      description: Read the top 5 movie
       responses:
         200:
           description: Successfully read set of movie
@@ -435,7 +558,7 @@ paths:
   
   /movie/{movie_id}:
     get:
-      operationId: movie.read_one_movie
+      operationId: movie.read_one
       tags:
         - Movie
       summary: Read a particular movie associated with a director
@@ -498,7 +621,7 @@ paths:
                     type: string
                     description: name of the director
     put:
-      operationId: movie.update_movie
+      operationId: movie.update
       tags:
         - Movie
       summary: Update a movie 
@@ -592,7 +715,7 @@ paths:
                 type: string
                 description: tagline of the movie
     delete:
-      operationId: movie.delete_movie
+      operationId: movie.delete
       tags:
         - Movie
       summary: Delete a movie
