@@ -159,8 +159,8 @@ def delete(movie_id):
 
 def get_highest_rating():
     """
-    This function responds to a request for /api/movie with the complete list of movie, sorted by movie release date
-    :return:                json list of all movie for all director
+    This function responds to a request for /api/movie/popular
+    :return:                json list of top 5 movie
     """
     # Query the database for all the movies
     movie = Movie.query.order_by(db.desc(Movie.vote_average)).limit(5).all()
@@ -169,3 +169,26 @@ def get_highest_rating():
     movie_schema = MovieSchema(many=True)
     data = movie_schema.dump(movie)
     return data
+
+def read_by_director(director_id):
+    """
+    This function responds to a request for /api/movie/{director_id} with matching movie for the associated director
+    :param director_id:         Id of director the movie is related to
+    :return:                    json string of movie contents
+    """
+    # Query the database for the movie
+    movie = (
+        Movie.query.join(Director, Director.id == Movie.director_id)
+        .filter(Movie.director_id == director_id)
+        .all()
+    )
+
+    # Was a movie found?
+    if movie is not None:
+        movie_schema = MovieSchema(many=True)
+        data = movie_schema.dump(movie)
+        return data
+
+    # Otherwise, nope, didn't find that movie
+    else:
+        abort(404, f"Movie not found for Director Id: {director_id}")

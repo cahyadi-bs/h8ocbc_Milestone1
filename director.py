@@ -77,7 +77,7 @@ def create(director):
     try:
         assert new_director.gender in [0,1,2]
     except AssertionError:
-        abort(404, "Gender not valid, must be 1 = Male or 2 = Female")
+        abort(404, "Gender not valid, must be 1 = Male or 2 = Female or 0")
 
     # Add the director to the database
     db.session.add(new_director)
@@ -167,4 +167,4 @@ def get_by_gender(gender):
 
     # Otherwise, nope, didn't find the code
     else:
-        abort(404, f"Gender code not found : {gender}")
+        abort(404, f"Gender code not found : {gender} , Choice are ( 0,1,2 )")
