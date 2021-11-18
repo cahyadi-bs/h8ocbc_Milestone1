@@ -112,7 +112,7 @@ paths:
                 type: integer
                 description: gender of the director
   
-  /director/{limit}:
+  /director/limit/{limit}:
     get:
       operationId: director.read_offset_limit
       tags:
@@ -481,7 +481,7 @@ paths:
                             type: string
                             description: name of the director
 
-  /movie/{limit}:
+  /movie/limit/{limit}:
     get:
       operationId: movie.read_offset_limit
       tags:

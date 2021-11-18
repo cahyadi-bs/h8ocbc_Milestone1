@@ -25,7 +25,7 @@ class FlaskTest(unittest.TestCase):
     def test_get_all_director(self):
         connex_app.app.testing = True
         tester = connex_app.app.test_client(self)
-        response = tester.get('/api/director/0/10')
+        response = tester.get('/api/director/10')
         self.assertEqual(response.status_code, 200)
         print('')
         print('----------------------------------------------------------------------')
@@ -45,7 +45,7 @@ class FlaskTest(unittest.TestCase):
     def test_get_all_movie(self):
         connex_app.app.testing = True
         tester = connex_app.app.test_client(self)
-        response = tester.get('/api/movie/0/10')
+        response = tester.get('/api/movie/10')
         self.assertEqual(response.status_code, 200)
         print('')
         print('----------------------------------------------------------------------')
