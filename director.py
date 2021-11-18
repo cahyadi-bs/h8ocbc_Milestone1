@@ -19,7 +19,7 @@ def read_all():
     data = director_schema.dump(director)
     return data
 
-def read_offset_limit(offset,limit):
+def read_offset_limit(limit):
     """
     This function responds to a request for /api/director/{offset}/{limit} with the complete lists of people
     :param offset:      Index where to get data
@@ -27,7 +27,7 @@ def read_offset_limit(offset,limit):
     :return:            json string of list of director
     """
     # Create the list of director from our data
-    director = Director.query.order_by(db.desc(Director.id)).slice(offset,limit)
+    director = Director.query.order_by(db.desc(Director.id)).limit(limit).all()
 
     # Serialize the data for the response
     director_schema = DirectorSchema(many=True)

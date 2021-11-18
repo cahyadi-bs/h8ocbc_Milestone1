@@ -21,13 +21,13 @@ def read_all():
     data = movie_schema.dump(movie)
     return data
 
-def read_offset_limit(offset,limit):
+def read_offset_limit(limit):
     """
     This function responds to a request for /api/movie/{offset}/{limit} with the limited list of movie, sorted by movie release date
     :return:                json list of all movie for all director
     """
     # Query the database for all the movies
-    movie = Movie.query.order_by(db.desc(Movie.id)).slice(offset,limit)
+    movie = Movie.query.order_by(db.desc(Movie.id)).limit(limit).all()
 
     # Serialize the list of movies from our data
     movie_schema = MovieSchema(many=True)

@@ -112,7 +112,7 @@ paths:
                 type: integer
                 description: gender of the director
   
-  /director/{offset}/{limit}:
+  /director/{limit}:
     get:
       operationId: director.read_offset_limit
       tags:
@@ -120,11 +120,6 @@ paths:
       summary: Read set of director with limit
       description: Read set of director with limit
       parameters:
-        - name: offset
-          in: path
-          description: offset of the set 
-          type: integer
-          required: True
         - name: limit
           in: path
           description: limit of the set
@@ -486,7 +481,7 @@ paths:
                             type: string
                             description: name of the director
 
-  /movie/{offset}/{limit}:
+  /movie/{limit}:
     get:
       operationId: movie.read_offset_limit
       tags:
@@ -494,11 +489,6 @@ paths:
       summary: Read a limited set of movies data
       description: Read a limited set of movies data
       parameters:
-        - name: offset
-          in: path
-          description: offset 
-          type: integer
-          required: True
         - name: limit
           in: path
           description: limit
