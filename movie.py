@@ -27,7 +27,7 @@ def read_offset_limit(offset,limit):
     :return:                json list of all movie for all director
     """
     # Query the database for all the movies
-    movie = Movie.query.order_by(Movie.id).slice(offset,limit)
+    movie = Movie.query.order_by(db.desc(Movie.id)).slice(offset,limit)
 
     # Serialize the list of movies from our data
     movie_schema = MovieSchema(many=True)
@@ -81,7 +81,7 @@ def create(director_id, movie):
     try:
         date_obj = datetime.datetime.strptime(new_movie.release_date, '%Y/%m/%d')
     except ValueError:
-        abort(404, "Incorrect data format, should be YYYY/MM/DD")
+        abort(404, "Incorrect data format in release_date field, should be YYYY/MM/DD")
 
     # Add the movie to the person and database
     director.movie.append(new_movie)
@@ -150,7 +150,7 @@ def delete(movie_id):
         db.session.delete(movie)
         db.session.commit()
         return make_response(
-            "Movie {movie_id} deleted".format(movie_id=movie_id), 200
+            "Movie {movie_title} with id: {movie_id} deleted".format(movie_title = movie.title,movie_id=movie_id), 200
         )
 
     # Otherwise, nope, didn't find that movie
@@ -182,6 +182,13 @@ def read_by_director(director_id):
         .filter(Movie.director_id == director_id)
         .all()
     )
+
+    # get the director director
+    director = Director.query.filter(Director.id == director_id).one_or_none()
+
+    # Was a director found?
+    if director is None:
+        abort(404, f"Director not found for Id: {director_id}")
 
     # Was a movie found?
     if movie is not None:

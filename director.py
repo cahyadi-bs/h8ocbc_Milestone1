@@ -12,7 +12,7 @@ def read_all():
     :return:        json string of list of people
     """
     # Create the list of director from our data
-    director = Director.query.order_by(Director.id).all()
+    director = Director.query.order_by(db.desc(Director.id)).all()
 
     # Serialize the data for the response
     director_schema = DirectorSchema(many=True)
@@ -27,7 +27,7 @@ def read_offset_limit(offset,limit):
     :return:            json string of list of director
     """
     # Create the list of director from our data
-    director = Director.query.order_by(Director.id).slice(offset,limit)
+    director = Director.query.order_by(db.desc(Director.id)).slice(offset,limit)
 
     # Serialize the data for the response
     director_schema = DirectorSchema(many=True)
@@ -155,7 +155,7 @@ def get_by_gender(gender):
     :return:                director matching id
     """
     # Build the initial query
-    director = Director.query.order_by(Director.id).filter(Director.gender == gender).outerjoin(Movie).all()
+    director = Director.query.order_by(db.desc(Director.id)).filter(Director.gender == gender).outerjoin(Movie).all()
 
     # is gender code is right?
     if gender in [0,1,2]:
